@@ -4,12 +4,14 @@
 #include "main.hpp"
 #include <sstream>
 
-#define WIDTH 100
-#define HEIGHT 100
+#define WIDTH 800
+#define HEIGHT 600
 
 using namespace std;
 
 bool running = true;
+
+sf::Vector3<float> colors[WIDTH][HEIGHT + 1];
 
 int main(int argc, char *argv[]){
     
@@ -28,9 +30,11 @@ int main(int argc, char *argv[]){
     int pixY = 1;
 
     glClear(GL_COLOR_BUFFER_BIT);
-
+    
+    Logger::log("Starting rendering...");
+    
+    bool finished = false;
     while (running){
-        
         sf::Event event;
         while(window.pollEvent(event)){
             if (event.type == sf::Event::Closed){
@@ -45,7 +49,21 @@ int main(int argc, char *argv[]){
             pixX = (pixX + 1) % WIDTH;
             if (pixX == 0) pixY++;
         }
-        //if (pixY == HEIGHT + 1) running = false;
+        else if (!finished){
+            finished = true;
+            Logger::log("Finished rendering!");
+        }
+        else{
+            glClear(GL_COLOR_BUFFER_BIT);
+            glBegin(GL_POINTS);    
+            for (int i = 0; i < WIDTH; i++){
+                for (int j = 1; j < HEIGHT + 1; j++){
+                    glColor3f(colors[i][j].x, colors[i][j].y, colors[i][j].z);
+                    glVertex2i(i, j);
+                }
+            }
+            glEnd();
+        }
 
         window.display();
     }
@@ -80,22 +98,19 @@ void render(int pixX, int pixY, sf::Window& window){
         iteration++;
         //Logger::log(intToString(x) + " " + intToString(y) + " " + intToString(iteration));
     }
-
+    float red=0, green=0, blue=0;
     if (iteration >= max_iteration){
         glColor3f(0, 0, 0);
     }
     else{
-        long temp = iteration * (16777216 / max_iteration);
-        float red = 0, green = 0, blue = 0;
-        red = temp / 65025;
-        temp -= red * 65025;
-        green = temp / 255;
-        temp -= green * 255;
-        blue = temp;
+        long temp = iteration * 0b1000000000000000000000000 / max_iteration;
+        red = temp & 0b111111110000000000000000;
+        green = temp & 0b1111111100000000;
+        blue = temp & 0b11111111;
         //Logger::log(intToString(pixX) + " " + intToString(pixY) + " " + intToString(red) + " " + intToString(green) + " " + intToString(blue));
-        glColor3f(red / 255, green / 255, blue / 255);
+        glColor3f(red / 0b1000000000000000000000000, green / 0b10000000000000000, blue / 0b100000000);
     }
-
+    colors[pixX][pixY] = sf::Vector3<float>(red, green, blue);
     glVertex2i(pixX, pixY);
     glEnd();
 }
