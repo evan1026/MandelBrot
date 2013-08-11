@@ -4,8 +4,8 @@
 #include "main.hpp"
 #include <sstream>
 
-#define WIDTH 500
-#define HEIGHT 300
+#define WIDTH 100
+#define HEIGHT 100
 
 using namespace std;
 
@@ -40,11 +40,12 @@ int main(int argc, char *argv[]){
                 glViewport(0, 0, event.size.width, event.size.height);
             }
         }
-
-        render(pixX, pixY, window);
-        pixX = (pixX + 1) % WIDTH;
-        if (pixX == 0) pixY++;
-        if (pixY == HEIGHT + 1) running = false;
+        if (pixY != HEIGHT + 1){
+            render(pixX, pixY, window);
+            pixX = (pixX + 1) % WIDTH;
+            if (pixX == 0) pixY++;
+        }
+        //if (pixY == HEIGHT + 1) running = false;
 
         window.display();
     }
