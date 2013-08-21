@@ -9,8 +9,7 @@ set(CMAKE_MODULE_PATH "/usr/local/share/SFML/cmake/Modules/;${CMAKE_MODULE_PATH}
 set(EXECUTABLE_NAME "MandelBrot")
 
 add_executable(${EXECUTABLE_NAME} 
-               	${SOURCE_DIR}/main.cpp
-                ${SOURCE_DIR}/Logger.cpp)
+               	${SOURCE_DIR}/main.cpp)
 
 find_package(SFML 2 REQUIRED graphics window system)
 

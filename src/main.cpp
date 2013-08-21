@@ -1,12 +1,12 @@
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
-#include "Logger.hpp"
+#include "Logger/Logger.cpp"
 #include "main.hpp"
 #include <sstream>
 #include <iostream>
 
-#define WIDTH 1275
-#define HEIGHT 740
+#define WIDTH 900
+#define HEIGHT 600
 
 using namespace std;
 
@@ -14,17 +14,20 @@ bool running = true;
 
 sf::Vector3<float> colors[WIDTH][HEIGHT + 1];
 
+Logger logger;
+
 int main(int argc, char *argv[]){
 
-    sf::Window window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot");    
+    sf::Window window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot"); 
 
     int pixX = 0;
     int pixY = 1;
 
     glClear(GL_COLOR_BUFFER_BIT);
+    window.setVisible(false);
     
-    Logger::log("Starting rendering...");
-    cout << "00% complete";
+    logger.log("Starting rendering...");
+    logger.logNoEndl("00% complete");
     
     int doneAt = WIDTH * HEIGHT;
     int at = 0;
@@ -52,7 +55,7 @@ int main(int argc, char *argv[]){
         else if (!finished){
             finished = true;
             cout << endl;
-            Logger::log("Finished rendering!");
+            logger.log("Finished rendering!");
             
             window.setVerticalSyncEnabled(true);
 
@@ -61,8 +64,11 @@ int main(int argc, char *argv[]){
             glOrtho(0, WIDTH, HEIGHT, 0, 0, 1); 
             glMatrixMode(GL_MODELVIEW);
             glDisable(GL_DEPTH_TEST);
-        
-            Logger::log("Initialized window.");
+
+            logger.log("Displaying window.");
+            window.setVisible(true);
+
+            logger.log("Displaying image.");
 
         }
         else{
@@ -77,14 +83,13 @@ int main(int argc, char *argv[]){
             glEnd();
             window.display();
         }
-
-        //window.display();
     }
 
     window.close();
-    Logger::log("Window closed.");
+    logger.log("Window closed.");
     
-    Logger::log("Exiting...");
+    logger.log("Exiting...");
+    
     return 0;
 }
 
