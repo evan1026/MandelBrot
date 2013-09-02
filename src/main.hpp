@@ -3,6 +3,5 @@
 
 void render(int pixX, int pixY);
 std::string intToString(long long int val);
-std::string floatToString(float val);
 
 #endif
