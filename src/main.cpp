@@ -14,7 +14,7 @@ bool running = true;
 
 sf::Vector3<float> colors[WIDTH][HEIGHT + 1];
 
-Logger logger;
+Logger logger(true);
 
 int main(int argc, char *argv[]){
 
