@@ -16,6 +16,8 @@ sf::Vector3<float> colors[WIDTH][HEIGHT + 1];
 
 Logger logger = Logger();
 
+int percent = 0;
+
 int main(int argc, char *argv[]){
 
     logger.logNoEndl("Initializing window...");
@@ -47,8 +49,9 @@ int main(int argc, char *argv[]){
         }
         if (pixY != HEIGHT + 1){
             render(pixX, pixY);
-            int percent = (float)++at / doneAt * 100;
-            logger.logrwNoEndl(intToString(percent) + "% complete");
+            int newpercent = (float)++at / doneAt * 100;
+            if (percent != newpercent) logger.logrwNoEndl(intToString(percent) + "% complete");
+            percent = newpercent;
             pixX = (pixX + 1) % WIDTH;
             if (pixX == 0) pixY++;
         }
