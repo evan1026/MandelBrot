@@ -21,7 +21,7 @@ int percent = 0;
 int main(int argc, char *argv[]){
 
     logger.logNoEndl("Initializing window...");
-    sf::Window window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot"); 
+    sf::Window window(sf::VideoMode(WIDTH, HEIGHT), "Mandelbrot");
 
     int pixX = 0;
     int pixY = 1;
@@ -29,10 +29,10 @@ int main(int argc, char *argv[]){
     glClear(GL_COLOR_BUFFER_BIT);
     window.setVisible(false);
     logger.continueln("done!");
-    
+
     logger.log("Starting rendering...");
     logger.logNoEndl("00% complete");
-    
+
     int doneAt = WIDTH * HEIGHT;
     int at = 0;
 
@@ -58,13 +58,13 @@ int main(int argc, char *argv[]){
         else if (!finished){
             finished = true;
             logger.log("Finished rendering!");
-            
+
             logger.logNoEndl("Starting up GL...");
             window.setVerticalSyncEnabled(true);
 
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
-            glOrtho(0, WIDTH, HEIGHT, 0, 0, 1); 
+            glOrtho(0, WIDTH, HEIGHT, 0, 0, 1);
             glMatrixMode(GL_MODELVIEW);
             glDisable(GL_DEPTH_TEST);
             logger.continueln("done!");
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
         }
         else{
             glClear(GL_COLOR_BUFFER_BIT);
-            glBegin(GL_POINTS);    
+            glBegin(GL_POINTS);
             for (int i = 0; i < WIDTH; i++){
                 for (int j = 1; j < HEIGHT + 1; j++){
                     glColor3f(colors[i][j].x, colors[i][j].y, colors[i][j].z);
@@ -92,9 +92,9 @@ int main(int argc, char *argv[]){
 
     window.close();
     logger.log("Window closed.");
-    
+
     logger.log("Exiting...");
-    
+
     return 0;
 }
 
@@ -112,9 +112,9 @@ void render(int pixX, int pixY){
     while ((x*x) + (y*y) < 4 && iteration < max_iteration){
         double xtemp = x*x - y*y + x0;
         y = 2 * x * y + y0;
-        
+
         x = xtemp;
-        
+
         iteration++;
     }
     double red=0, green=0, blue=0;
