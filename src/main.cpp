@@ -1,9 +1,4 @@
-#include <SFML/Window.hpp>
-#include <SFML/OpenGL.hpp>
-#include <Logger/Logger.hpp>
 #include "main.hpp"
-#include <sstream>
-#include <iostream>
 
 #define WIDTH 900
 #define HEIGHT 600
@@ -53,7 +48,7 @@ int main(int argc, char *argv[]){
             if (percent != newpercent) logger.logrwNoEndl(intToString(percent) + "% complete");
             percent = newpercent;
             pixX = (pixX + 1) % WIDTH;
-            if (pixX == 0) pixY++;
+            if (pixX == 0) ++pixY;
         }
         else if (!finished){
             finished = true;
@@ -79,8 +74,8 @@ int main(int argc, char *argv[]){
         else{
             glClear(GL_COLOR_BUFFER_BIT);
             glBegin(GL_POINTS);
-            for (int i = 0; i < WIDTH; i++){
-                for (int j = 1; j < HEIGHT + 1; j++){
+            for (int i = 0; i < WIDTH; ++i){
+                for (int j = 1; j < HEIGHT + 1; ++j){
                     glColor3f(colors[i][j].x, colors[i][j].y, colors[i][j].z);
                     glVertex2i(i, j);
                 }
@@ -115,7 +110,7 @@ void render(int pixX, int pixY){
 
         x = xtemp;
 
-        iteration++;
+        ++iteration;
     }
     double red=0, green=0, blue=0;
     if (iteration < max_iteration){
